@@ -20,8 +20,8 @@ import java.util.List;
 @AllArgsConstructor // provides an all argument constructor
 
 @Entity //says that this is a data entity
-@Table(name = "_user") // the table this class is linked to
-public class User implements UserDetails { // UserDetails is spring built in class. Can either implement it or extend the
+@Table(name = "Users") // the table this class is linked to
+public class Users implements UserDetails { // UserDetails is spring built in class. Can either implement it or extend the
     //built-in User class. This built in User class already implements UserDetails anyways. But by implemeting UserDetails ourselves
     //we have complete control over our object
 
