@@ -8,6 +8,7 @@ import com.prab.security.repository.UserRepository;
 import jakarta.mail.MessagingException;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -23,16 +24,17 @@ public class AuthenticationService {
 
     private final EmailService emailService;
 
-    //password manager TODO
+    private final PasswordEncoder passwordEncoder;
 
-    public AuthenticationService(UserRepository userRepository, AuthenticationManager authenticationManager, EmailService emailService) {
+    public AuthenticationService(UserRepository userRepository, AuthenticationManager authenticationManager, EmailService emailService, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.authenticationManager = authenticationManager;
         this.emailService = emailService;
+        this.passwordEncoder = passwordEncoder;
     }
 
     public User signup(RegisterUserDto userData){
-        User user = new User(userData.getUsername(), userData.getEmail(), userData.getPassword());
+        User user = new User(userData.getUsername(), userData.getEmail(), passwordEncoder.encode(userData.getPassword()));
         user.setVerificationCode(generateVerificationCode());
         user.setVerificationExpiration(LocalDateTime.now().plusMinutes(15));
         user.setEnabled(false);

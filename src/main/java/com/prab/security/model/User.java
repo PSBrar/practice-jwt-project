@@ -15,7 +15,7 @@ import java.util.List;
 @Table(name = "users")
 @Getter
 @Setter
-@NoArgsConstructor
+//@NoArgsConstructor
 public class User implements UserDetails {
 
     @Id
@@ -38,6 +38,10 @@ public class User implements UserDetails {
 
     @Column(nullable = false)
     private String password;
+
+    public User() {
+
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

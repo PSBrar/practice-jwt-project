@@ -9,6 +9,7 @@ import org.springframework.security.authentication.dao.DaoAuthenticationProvider
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @Configuration
 public class ApplicationConfiguration {
@@ -25,7 +26,12 @@ public class ApplicationConfiguration {
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));
     }
 
-    //password decrypter from the database as passwords are not stored in plaintext TODO
+    //password decrypter from the database as passwords are not stored in plaintext
+    @Bean
+    BCryptPasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+
 
     @Bean
     AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
@@ -37,7 +43,7 @@ public class ApplicationConfiguration {
         DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
 
         authProvider.setUserDetailsService(userDetailsService());
-        //authProvider.setPasswordEncoder();
+        authProvider.setPasswordEncoder(passwordEncoder());
 
         return authProvider;
     }

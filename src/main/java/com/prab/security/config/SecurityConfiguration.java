@@ -40,7 +40,7 @@ public class SecurityConfiguration {
         http
                 .csrf(csrf -> csrf.disable()) // disable CSRF protection
                 .authorizeHttpRequests(authorize -> authorize // authorise all http requests
-                        .requestMatchers("*/auth/**").permitAll() // with the following header/path
+                        .requestMatchers("auth/**").permitAll() // with the following header/path
                         .anyRequest().authenticated() // but require auth for any another path
                 )
                 .sessionManagement(session -> session
